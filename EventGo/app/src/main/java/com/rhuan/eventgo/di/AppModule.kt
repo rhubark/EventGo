@@ -1,4 +1,3 @@
 package com.rhuan.eventgo.di
 
-class AppModule {
-}
+class AppModule
