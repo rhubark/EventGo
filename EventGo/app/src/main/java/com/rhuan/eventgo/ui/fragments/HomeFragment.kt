@@ -6,10 +6,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.rhuan.eventgo.R
+import androidx.lifecycle.lifecycleScope
+import com.rhuan.eventgo.databinding.FragmentHomeBinding
+import com.rhuan.eventgo.domain.response.Event
+import com.rhuan.eventgo.service.RetrofitProvider
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.launch
+import retrofit2.Call
+import retrofit2.Response
 
 
 class HomeFragment : Fragment() {
+
+    private var _binding: FragmentHomeBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,9 +31,27 @@ class HomeFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
+        _binding = FragmentHomeBinding
+            .inflate(inflater, container, false)
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false)
+
+
+        lifecycleScope.launch(IO){
+            Log.i("HomeFragment", "onCreate bug 2")
+
+            val call: Call<List<Event>> = RetrofitProvider().eventService.getAllEvents()
+            Log.i("HomeFragment", "onCreate bug 3")
+
+            val response: Response<List<Event>> = call.execute()
+            Log.i("HomeFragment", "onCreate bug 4")
+
+            response.body()?.let { events ->
+                Log.i("ListEvents", "onCreate ${events[1].date}")
+            }
+        }
+
+        return binding.root
     }
 
 
