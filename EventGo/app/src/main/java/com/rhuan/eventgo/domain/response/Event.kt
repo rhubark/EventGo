@@ -1,6 +1,7 @@
 package com.rhuan.eventgo.domain.response
 
 import com.rhuan.eventgo.domain.request.User
+import java.io.Serializable
 
 
 data class Event(
@@ -12,6 +13,5 @@ data class Event(
     val price: Double,
     val latitude: Double,
     val longitude: Double,
-    val people: List<User>
-
-)
+  val people: List<User>
+) : Serializable

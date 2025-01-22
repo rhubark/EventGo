@@ -11,12 +11,14 @@ class RetrofitProvider {
         private const val BASE_URL = "https://5f5a8f24d44d640016169133.mockapi.io/api/"
     }
 
-    private val retrofit: Retrofit = Retrofit.Builder()
-        .baseUrl(BASE_URL)
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()
+    fun provideEventService(): EventAPI {
+        val retrofit = Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
 
-    val eventService = retrofit.create(EventAPI::class.java)
+        return retrofit.create(EventAPI::class.java)
+    }
 
 
 }

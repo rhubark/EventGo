@@ -6,26 +6,28 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.rhuan.eventgo.databinding.FragmentHomeBinding
 import com.rhuan.eventgo.domain.response.Event
-import com.rhuan.eventgo.service.RetrofitProvider
-import kotlinx.coroutines.Dispatchers.IO
-import kotlinx.coroutines.launch
-import retrofit2.Call
-import retrofit2.Response
+import com.rhuan.eventgo.ui.adapters.EventsHomeAdapter
+import com.rhuan.eventgo.ui.viewholders.HomeViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class HomeFragment : Fragment() {
 
+    private val viewModel: HomeViewModel by viewModel()
+
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
+
+    private val adapterEvents: EventsHomeAdapter by lazy { EventsHomeAdapter() }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-
-        Log.i("HomeFragment", "onCreate bug criado")
     }
 
     override fun onCreateView(
@@ -34,25 +36,39 @@ class HomeFragment : Fragment() {
     ): View {
         _binding = FragmentHomeBinding
             .inflate(inflater, container, false)
-        // Inflate the layout for this fragment
 
-
-        lifecycleScope.launch(IO){
-            Log.i("HomeFragment", "onCreate bug 2")
-
-            val call: Call<List<Event>> = RetrofitProvider().eventService.getAllEvents()
-            Log.i("HomeFragment", "onCreate bug 3")
-
-            val response: Response<List<Event>> = call.execute()
-            Log.i("HomeFragment", "onCreate bug 4")
-
-            response.body()?.let { events ->
-                Log.i("ListEvents", "onCreate ${events[1].date}")
-            }
-        }
+        setupAdapter()
+        setuoObservers()
+        viewModel.getAllEvents()
 
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+    }
 
+    private fun setuoObservers() {
+        viewModel.loadingEvent.observe(viewLifecycleOwner){}
+
+        viewModel.fetchEventsResult.observe(viewLifecycleOwner){
+            val evento: List<Event> = it
+            binding.recyclerView
+            adapterEvents.update(evento)
+            Log.i("EVENTS", "aquiii ${evento[1]}")
+        }
+
+        viewModel.fetchEventDataError.observe(viewLifecycleOwner){}
+
+    }
+
+
+    private fun setupAdapter() {
+        with(binding.recyclerView) {
+            layoutManager = LinearLayoutManager(requireContext())
+            adapter = adapterEvents
+            itemAnimator = DefaultItemAnimator()
+            setHasFixedSize(true)
+        }
+    }
 }
