@@ -1,4 +1,4 @@
-package com.rhuan.eventgo.ui.viewholders
+package com.rhuan.eventgo.ui.viewModels
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
@@ -8,27 +8,20 @@ import com.rhuan.eventgo.data.repository.EventsRepository
 import com.rhuan.eventgo.domain.response.Event
 import kotlinx.coroutines.launch
 
-class HomeViewModel(
+class EventFragmentViewModel(
     private val eventsRepository: EventsRepository
 ) : ViewModel() {
 
-    val events: MutableLiveData<List<Event>> = MutableLiveData()
-
-//    private val fetchEventsResult = MediatorLiveData<Result<Event>>()
-//    private val fetchEventDataSuccessful = MediatorLiveData<Event>()
-//    private val fetchEventDataError = MediatorLiveData<String>()
-
-
     val loadingEvent: MutableLiveData<Boolean> = MutableLiveData(true)
-    val fetchEventsResult: MutableLiveData<List<Event>> = MutableLiveData()
+    val fetchEventResult: MutableLiveData<Event> = MutableLiveData()
     val fetchEventDataError: MutableLiveData<Boolean> = MutableLiveData(false)
 
-    fun getAllEvents() {
+    fun getEvent(id: String) {
         viewModelScope.launch {
-            val response = eventsRepository.getAllEvents()
+            val response = eventsRepository.getEvent(id)
             if (response.isSuccessful) {
                 loadingEvent.value = false
-                fetchEventsResult.value = response.body()
+                fetchEventResult.value = response.body()
             } else {
                 loadingEvent.value = false
                 fetchEventDataError.value = true

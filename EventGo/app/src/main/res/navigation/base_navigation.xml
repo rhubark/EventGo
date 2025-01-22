@@ -10,6 +10,30 @@
         android:name="com.rhuan.eventgo.ui.fragments.HomeFragment"
         tools:layout="@layout/fragment_home" >
 
+        <action
+            android:id="@+id/action_home_fragment_to_eventFragment"
+            app:destination="@id/eventFragment" />
+
+        <argument
+            android:name="eventId"
+            android:defaultValue="@null"
+            app:nullable="true"
+            app:argType="string"/>
+    </fragment>
+    <fragment
+        android:id="@+id/eventFragment"
+        android:name="com.rhuan.eventgo.ui.fragments.EventFragment"
+        android:label="EventFragment" >
+
+        <action
+            android:id="@+id/action_eventFragment_to_home_fragment"
+            app:destination="@id/home_fragment" />
+
+        <argument
+            android:name="eventId"
+            android:defaultValue="@null"
+            app:nullable="true"
+            app:argType="string"/>
     </fragment>
 
 </navigation>

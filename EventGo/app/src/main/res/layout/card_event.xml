@@ -47,9 +47,10 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="-6dp"
             android:text="Mar"
+
             android:textColor="@color/white"
             android:textSize="15sp"
-            android:textStyle="normal"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="@+id/tv_day"
             app:layout_constraintStart_toStartOf="@+id/tv_day"
             app:layout_constraintTop_toBottomOf="@id/tv_day" />
