@@ -1,11 +1,12 @@
 package com.rhuan.eventgo.ui.fragments
 
+import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.SupportMapFragment
@@ -18,6 +19,8 @@ import com.rhuan.eventgo.domain.response.Event
 import com.rhuan.eventgo.domain.response.Places
 import com.rhuan.eventgo.ui.dialog.CheckInDialogFragment
 import com.rhuan.eventgo.ui.viewModels.EventFragmentViewModel
+import com.rhuan.eventgo.utils.Constants
+import com.rhuan.eventgo.utils.DialogUtils
 import com.rhuan.eventgo.utils.Formats
 import com.squareup.picasso.Picasso
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -27,6 +30,7 @@ class EventFragment : Fragment() {
     private val viewModel: EventFragmentViewModel by viewModel()
     private var _binding: FragmentEventBinding? = null
     private val binding get() = _binding!!
+    private lateinit var event: Event
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,33 +45,67 @@ class EventFragment : Fragment() {
             setupButton(it)
         }
 
-        setupObservers()
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setupObservers()
     }
 
     private fun setupButton(id: String) {
         binding.checkInButton.setOnClickListener {
-            Log.i("checkIn", "checkIn")
             val dialogFragment = CheckInDialogFragment(id)
-            dialogFragment.show(childFragmentManager, CheckInDialogFragment.DIALOG_FRAGMENT_KEY)
+            dialogFragment.show(childFragmentManager, Constants.DIALOG_FRAGMENT_KEY)
+        }
+
+        binding.shareButton.setOnClickListener {
+            val sendIntent: Intent = Intent().apply {
+                action = Intent.ACTION_SEND
+                putExtra(
+                    Intent.EXTRA_TEXT, String.format(
+                        Constants.EVENT_SHARE_MESSAGE,
+                        event.title,
+                        Formats.longToDateExtensive(event.date),
+                        Formats.money(event.price.toBigDecimal())
+                    )
+                )
+                putExtra(
+                    Intent.EXTRA_TITLE,
+                    getString(R.string.share_event)
+                )
+                type = "text/plain"
+            }
+            val shareIntent = Intent.createChooser(sendIntent, null)
+            startActivity(shareIntent)
+        }
+
+        binding.ivBtnBack.setOnClickListener {
+            findNavController().popBackStack()
+
         }
     }
 
     private fun setupObservers() {
-        viewModel.loadingEvent.observe(viewLifecycleOwner) {}
-
-        viewModel.fetchEventResult.observe(viewLifecycleOwner) {
+        viewModel.fetchEventResult().observe(viewLifecycleOwner) {
+            event = it
             setupView(it)
         }
-        viewModel.fetchEventDataError.observe(viewLifecycleOwner) {}
+
+        viewModel.postError().observe(viewLifecycleOwner) {
+            if (it) DialogUtils.alert(
+                requireContext()
+            ) { dialog, _ ->
+                viewModel.postError.value = false
+                dialog.dismiss()
+            }
+        }
     }
 
     private fun setupView(event: Event) {
         binding.apply {
             Picasso.get()
                 .load(event.image)
-                .placeholder(R.drawable.spaceship)
-                .error(R.drawable.spaceship)
                 .into(eventImage)
 
             eventTitle.text = event.title

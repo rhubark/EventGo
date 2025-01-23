@@ -16,10 +16,6 @@ class CheckInDialogFragment(private val eventId: String) : DialogFragment() {
     private var _binding: FragmentDialogBinding? = null
     private val binding get() = _binding!!
 
-    companion object {
-        const val DIALOG_FRAGMENT_KEY = "MyDialogFragment"
-    }
-
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         _binding = FragmentDialogBinding.inflate(layoutInflater)
         val builder = AlertDialog.Builder(requireContext())

@@ -4,4 +4,16 @@
     <color name="white">#FFFFFFFF</color>
     <color name="red">#FFC62828</color>
 
+    <color name="colorPrimary">#ff6750a4</color>
+
+
+    <color name="colorPrimaryContainer">#ff21005d</color>
+
+
+    <color name="colorSecondary">#ff625b71</color>
+    <color name="colorSecondaryContainer">#ff1d192b</color>
+    <color name="colorSecondaryInverse">#ffe8def8</color>
+
+    <color name="transparent">#0011ffff</color>
+
 </resources>

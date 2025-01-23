@@ -13,22 +13,22 @@ class EventFragmentViewModel(
     private val eventsRepository: EventsRepository
 ) : ViewModel() {
 
-    val loadingEvent: MutableLiveData<Boolean> = MutableLiveData(true)
-    val fetchEventResult: MutableLiveData<Event> = MutableLiveData()
-    val fetchEventDataError: MutableLiveData<Boolean> = MutableLiveData(false)
+    private val loadingEvent: MutableLiveData<Boolean> = MutableLiveData(true)
+    private val fetchEventResult: MutableLiveData<Event> = MutableLiveData()
 
-    val postSuccess: MutableLiveData<Boolean> = MutableLiveData(false)
+    private val postSuccess: MutableLiveData<Boolean> = MutableLiveData(false)
     val postError: MutableLiveData<Boolean> = MutableLiveData(false)
 
     fun getEvent(id: String) {
         viewModelScope.launch {
+            Log.i("ID33","asssss")
             val response = eventsRepository.getEvent(id)
+
             if (response.isSuccessful) {
                 loadingEvent.value = false
                 fetchEventResult.value = response.body()
             } else {
                 loadingEvent.value = false
-                fetchEventDataError.value = true
                 Log.e("ERROR", response.message())
             }
         }
@@ -36,16 +36,13 @@ class EventFragmentViewModel(
 
     fun setCheckIn(userId: User) {
         viewModelScope.launch {
-            loadingEvent.value = true
-            val response = eventsRepository.setCheckIn(userId)
-            if (response.isSuccessful) {
-                loadingEvent.value = false
-                postSuccess.value = true
-            } else {
-                loadingEvent.value = false
-                postError.value = true
-                Log.e("ERROR", response.message())
-            }
+
+            eventsRepository.setCheckIn(userId)
         }
     }
+
+    fun fetchEventResult() = fetchEventResult as MutableLiveData<Event>
+
+    fun postSuccess() = postSuccess as MutableLiveData<Boolean>
+    fun postError() = postError as MutableLiveData<Boolean>
 }

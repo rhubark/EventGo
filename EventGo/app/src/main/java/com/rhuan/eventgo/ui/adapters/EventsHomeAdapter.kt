@@ -31,7 +31,6 @@ class EventsHomeAdapter(
                 tvDay.text = Formats.shortDate(event.date)
                 tvMonth.text = Formats.longMonth(event.date)
                 hour.text = Formats.longToHour(event.date)
-                tvDistance.text = event.date.toString()
 
                 configImage(cardEventBinding.ivEventImage, event)
 
@@ -46,8 +45,8 @@ class EventsHomeAdapter(
     private fun configImage(cardEventBinding: ImageView, event: Event) {
        Picasso.get()
            .load(event.image)
-           .placeholder(R.drawable.spaceship)
-           .error(R.drawable.spaceship)
+           .placeholder(R.drawable.ic_empty_image)
+           .error(R.drawable.ic_empty_image)
            .into(cardEventBinding)
     }
 
