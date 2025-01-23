@@ -1,57 +1,44 @@
 # EventGo
 
-Objetivo
+EventGo é um aplicativo Android que permite aos usuários descobrir e participar de eventos locais.
 
-Criar uma aplicativo que consuma uma REST API e exiba uma listagem de eventos;
-Cada item da lista deve permitir acesso à detalhes do evento;
+## Recursos
 
-No detalhe do evento é importante exibir suas informações e opções de check-in 
-e compartilhamento.
+* Descubra eventos próximos com base em sua localização.
+* Visualize detalhes do evento, incluindo data, hora, local e descrição.
+* Faça check-in em eventos usando um código QR.
+* Compartilhe eventos com amigos via mídias sociais.
+* Visualize a localização do evento em um mapa.
 
-Requisitos mínimos
+## Arquiteturas
 
-App deve compilar sem a necessidade de nenhum ajuste após ser clonado
-Suporte à API 19 e funcionar com a API mais recente do Android
-Código deve ser escrito em Kotlin
-Layout
+* MVVM (Model-View-ViewModel)
+* Clean Architecture (principais conceitos)
+* Repository Pattern
+* LiveData
+* Coroutines
+* Dependency Injection (Koin)
 
-A escolha do layout e disposição dos itens é livre.
+## Tecnologias
 
-Sobre seu código
+* Kotlin
+* Android Jetpack (LiveData, ViewModel, Navigation)
+* Koin
+* Picasso
+* Google Maps SDK
+* Retrofit (possivelmente)
+* Room (possivelmente)
 
-Analisaremos:
+## Instalação
 
-Organização do código;
-Boas práticas de programação;
-Possíveis bugs;
-Tratamento de erros;
-O uso de frameworks e libraries é livre.
-API
+1. Clone este repositório: `git clone https://github.com/seu-usuario/EventGo.git`
+2. Abra o projeto no Android Studio.
+3. Compile e execute o aplicativo em um dispositivo ou emulador Android.
 
-A API de eventos está disponivel em:
-https://5f5a8f24d44d640016169133.mockapi.io/api/events
+## Uso
 
-Para acessar cada detalhe do evento basta adicionar o ID do item ao final da URL. Ex: https://5f5a8f24d44d640016169133.mockapi.io/api/events/1
-
-Para realizar o check-in faça um POST no seguinte endereço: https://5f5a8f24d44d640016169133.mockapi.io/api/checkin
-Ps: caso o check-in retorne a seguinte mensagem de erro "Max number of elements reached for this resource!", por favor entre em contato via e-mail avisando para corrigirmos o quanto antes.
-
-O POST deve conter os dados do interessado (Nome, e-mail) e o id do evento. Ex:
-
-{ "eventId": "1", "name": "Otávio", "email": "otavio_souza@..." }
-
-Itens extras
-
-Explicação breve do porquê das escolhas de frameworks e arquitetura;
-Uso de testes unitários e de aceitação (interface).
-Dicas
-
-Dê atenção especial às recomendações do Material Design;
-Fique a vontade para utilizar animações e recursos especias (ex: parallax etc...);
-Teste bem seu aplicativo, evite crashes.
-Observações importantes
-
-Não inicie o teste sem sanar todas as dúvidas;
-A API pode ter falhas, prepare seu aplicativo para contorná-las.
-O aplicativo deve ser compartilhado através de um repositório git
-Bom teste!
+1. Abra o aplicativo e permita o acesso à sua localização.
+2. Explore os eventos próximos na tela principal.
+3. Toque em um evento para visualizar seus detalhes.
+4. Toque no botão "Check-in" para fazer check-in no evento.
+5. Toque no botão "Compartilhar" para compartilhar o evento com amigos.
