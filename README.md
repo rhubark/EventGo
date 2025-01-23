@@ -6,7 +6,6 @@ EventGo é um aplicativo Android que permite aos usuários descobrir e participa
 
 * Descubra eventos próximos com base em sua localização.
 * Visualize detalhes do evento, incluindo data, hora, local e descrição.
-* Faça check-in em eventos usando um código QR.
 * Compartilhe eventos com amigos via mídias sociais.
 * Visualize a localização do evento em um mapa.
 
@@ -26,8 +25,7 @@ EventGo é um aplicativo Android que permite aos usuários descobrir e participa
 * Koin
 * Picasso
 * Google Maps SDK
-* Retrofit (possivelmente)
-* Room (possivelmente)
+* Retrofit
 
 ## Instalação
 
@@ -42,3 +40,16 @@ EventGo é um aplicativo Android que permite aos usuários descobrir e participa
 3. Toque em um evento para visualizar seus detalhes.
 4. Toque no botão "Check-in" para fazer check-in no evento.
 5. Toque no botão "Compartilhar" para compartilhar o evento com amigos.
+
+## Melhorias futuras
+
+* Implementação completa de testes
+* Animação moderna durante o carregamento
+* Faça check-in em eventos usando um código QR.
+* Descubra eventos próximos com base em sua localização.
+* Fazer e ver avaliação em eventos proximos
+* Armazenamento interno de informações
+* Login
+* Filtro dos eventos por caracteristicas, valores, distancia etc
+
+
