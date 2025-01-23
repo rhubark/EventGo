@@ -1,4 +1,4 @@
-package com.rhuan.eventgo.data.repository
+package com.rhuan.eventgo.domain.usecase
 
 import com.rhuan.eventgo.domain.request.User
 import com.rhuan.eventgo.domain.response.Event

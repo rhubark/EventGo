@@ -4,8 +4,8 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.rhuan.eventgo.data.repository.EventsRepository
 import com.rhuan.eventgo.domain.response.Event
+import com.rhuan.eventgo.domain.usecase.EventsRepository
 import kotlinx.coroutines.launch
 
 class HomeViewModel(
